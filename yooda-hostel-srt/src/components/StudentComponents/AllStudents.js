@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useStudentContext from './useStudentContext';
 
 const AllStudents = () => {
-    const { students, pageInfo } = useStudentContext()
+    const { students, pageInfo, setPageInfo } = useStudentContext()
 
     const [bulkSelection, setBulkSelection] = useState([])
 
@@ -37,18 +37,18 @@ const AllStudents = () => {
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='text-capitalize'>
                     {
                         students.map((student, i) => <tr key={i}>
                             <td>
                                 <input className="form-check-input" onChange={e => bulkAction(e, student)} type="checkbox" />
                             </td>
                             <td>{student.id}</td>
-                            <td>{student.fullName}</td>
-                            <td>{student.age}</td>
-                            <td>{student.class}</td>
-                            <td>{student.roll}</td>
-                            <td>{student.hall}</td>
+                            <td>{student.studentName}</td>
+                            <td>{student.studentAge}</td>
+                            <td>{student.studentClass}</td>
+                            <td>{student.studentRoll}</td>
+                            <td>{student.studentHallName}</td>
                             <td>
                                 <select defaultValue={student.studentStatus} className="form-select form-select-sm">
                                     <option value="active">active</option>
@@ -66,17 +66,26 @@ const AllStudents = () => {
             <div>{pageInfo?.pageNo !== 0 &&
                 <ul className="pagination justify-content-center my-5">
                     <li className={`page-item ${pageInfo.pageNo < 2 ? 'disabled' : ''}`}>
-                        <span className="page-link" style={{ cursor: 'pointer' }}>Previous</span>
+                        <span className="page-link" style={{ cursor: 'pointer' }}
+                            onClick={() => setPageInfo({
+                                ...pageInfo, pageNo: pageInfo.pageNo - 1
+                            })}>Previous</span>
                     </li>
                     {
                         [...Array(pageInfo.totalPages)].map((v, i) => <li className="page-item" key={i}>
                             <span className={`page-link ${pageInfo.pageNo === i + 1 ?
                                 'bg-primary text-white' : ''}`}
-                                style={{ cursor: 'pointer' }}>{i + 1}</span>
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => setPageInfo({
+                                    ...pageInfo, pageNo: i + 1
+                                })}>{i + 1}</span>
                         </li>)
                     }
                     <li className={`page-item ${pageInfo.totalPages === pageInfo.pageNo ? 'disabled' : ''}`}>
-                        <span className="page-link" style={{ cursor: 'pointer' }}>Next</span>
+                        <span className="page-link" style={{ cursor: 'pointer' }}
+                            onClick={() => setPageInfo({
+                                ...pageInfo, pageNo: pageInfo.pageNo + 1
+                            })}>Next</span>
                     </li>
                 </ul>
             }</div>
