@@ -31,7 +31,7 @@ const useStudents = () => {
                 }
             })
     }
-    function editStudent(studentInfo, form) {
+    function editStudent(studentInfo, history) {
         console.log(studentInfo)
         fetch('http://localhost:5000/editstudent', {
             method: 'PUT',
@@ -43,7 +43,7 @@ const useStudents = () => {
             .then(data => {
                 console.log(data)
                 if (data.modifiedCount) {
-                    form && form.reset()
+                    history('/allstudents')
                     loadStudents()
                 }
             })

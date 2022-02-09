@@ -31,9 +31,11 @@ async function run() {
         const foodsCollection = yoodaHostel.collection('foods')
         // get foods from database
         app.get('/allfoods', async (req, res) => {
-            const cursor = foodsCollection.find({});
-            const foods = await cursor.toArray();
-            res.json(foods);
+            const { pageNo, items } = req.query
+            const cursor = await (foodsCollection.find({})).toArray();
+            const totalPages = Math.ceil(cursor.length / items)
+            const foods = cursor.slice((pageNo - 1) * items, pageNo * items);
+            res.json([foods, totalPages]);
         })
         // add new food item to database
         app.post('/addfood', async (req, res) => {
@@ -50,6 +52,24 @@ async function run() {
             const result = await foodsCollection.deleteOne(filter)
             res.json(result)
         })
+        // edit food item
+        app.put('/editfood', async (req, res) => {
+            const foodInfo = req.body
+            delete foodInfo._id
+            const query = { id: parseInt(foodInfo.id) }
+            const updateDoc = { $set: { ...foodInfo } }
+            const options = { upsert: false }
+            const result = await foodsCollection.updateOne(query, updateDoc, options)
+            res.json(result)
+        })
+        // get a food details
+        app.get('/food/:id', async (req, res) => {
+            const { id } = req.params
+            const query = { id: parseInt(id) }
+            const result = await foodsCollection.findOne(query);
+            res.json(result)
+        })
+
 
         // -------------------- student management ---------------------
         const studentsCollection = yoodaHostel.collection('students')

@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useStudentContext from './useStudentContext';
 
 const EditStudent = () => {
     const { id } = useParams()
+    const history = useNavigate()
     const { editStudent, getStudentInfo } = useStudentContext()
 
     const [targetStudent, setTargetStudent] = useState({})
@@ -23,11 +24,11 @@ const EditStudent = () => {
     }
     const formSubmit = e => {
         e.preventDefault()
-        const formValues = { id }
+        const formValues = { id: parseInt(id) }
         for (const value in formRefs) {
             formValues[value] = formRefs[value].current.value
         }
-        editStudent(formValues, e.target)
+        editStudent(formValues, history)
     }
     return (
         <div>
