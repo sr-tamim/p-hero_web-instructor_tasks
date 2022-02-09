@@ -2,7 +2,7 @@ import React from 'react';
 import useFoodContext from './useFoodContext';
 
 const AllFoods = () => {
-    const { foods } = useFoodContext()
+    const { foods, deleteFoodItem } = useFoodContext()
 
     return (
         <div>
@@ -16,7 +16,7 @@ const AllFoods = () => {
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='text-capitalize'>
                     {
                         foods.map((food, i) => <tr key={i}>
                             <td>{food.id}</td>
@@ -24,7 +24,8 @@ const AllFoods = () => {
                             <td>{food.foodPrice}</td>
                             <td className='text-end'>
                                 <button className='btn btn-primary py-0 me-2'>Edit</button>
-                                <button className='btn btn-primary py-0'>Delete</button>
+                                <button className='btn btn-primary py-0'
+                                    onClick={() => deleteFoodItem(food.id)}>Delete</button>
                             </td>
                         </tr>)
                     }
