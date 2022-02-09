@@ -33,9 +33,9 @@ const DistributeFood = () => {
                     <option value="lunch">lunch</option>
                     <option value="dinner">dinner</option>
                 </select>
-                <div class="form-check d-flex justify-content-center">
-                    <input class="form-check-input" type="checkbox" ref={formRefs.served} value="" id="flexCheckDefault" required />
-                    <label class="form-check-label ps-2" htmlFor="flexCheckDefault">
+                <div className="form-check d-flex justify-content-center">
+                    <input className="form-check-input" type="checkbox" ref={formRefs.served} value="" id="flexCheckDefault" required />
+                    <label className="form-check-label ps-2" htmlFor="flexCheckDefault">
                         Served
                     </label>
                 </div>

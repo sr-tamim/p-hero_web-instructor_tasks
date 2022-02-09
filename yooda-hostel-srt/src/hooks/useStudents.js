@@ -8,7 +8,7 @@ const useStudents = () => {
     useEffect(loadStudents, [pageInfo])
     function loadStudents() {
         const { pageNo, itemsPerPage } = pageInfo
-        fetch(`http://localhost:5000/allstudents?pageNo=${pageNo}&items=${itemsPerPage}`)
+        fetch(`https://yooda-hostel-srt.herokuapp.com/allstudents?pageNo=${pageNo}&items=${itemsPerPage}`)
             .then(res => res.json())
             .then(([data, pages]) => {
                 setStudents(data)
@@ -17,7 +17,7 @@ const useStudents = () => {
     }
 
     function addStudent(form, studentInfo) {
-        fetch('http://localhost:5000/addstudent', {
+        fetch('https://yooda-hostel-srt.herokuapp.com/addstudent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ const useStudents = () => {
     }
     function editStudent(studentInfo, history) {
         console.log(studentInfo)
-        fetch('http://localhost:5000/editstudent', {
+        fetch('https://yooda-hostel-srt.herokuapp.com/editstudent', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ const useStudents = () => {
             })
     }
     function deleteStudent(id) {
-        fetch(`http://localhost:5000/students/${id}`, {
+        fetch(`https://yooda-hostel-srt.herokuapp.com/students/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ const useStudents = () => {
     }
 
     async function getStudentInfo(id) {
-        const fetchData = await fetch(`http://localhost:5000/student/${id}`)
+        const fetchData = await fetch(`https://yooda-hostel-srt.herokuapp.com/student/${id}`)
         const data = await fetchData.json()
         return data
     }

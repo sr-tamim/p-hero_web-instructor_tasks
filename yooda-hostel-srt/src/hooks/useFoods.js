@@ -7,7 +7,7 @@ const useFoods = () => {
     useEffect(loadFoods, [pageInfo])
     function loadFoods() {
         const { pageNo, itemsPerPage } = pageInfo
-        fetch(`http://localhost:5000/allfoods?pageNo=${pageNo}&items=${itemsPerPage}`)
+        fetch(`https://yooda-hostel-srt.herokuapp.com/allfoods?pageNo=${pageNo}&items=${itemsPerPage}`)
             .then(res => res.json())
             .then(([data, pages]) => {
                 setFoods(data)
@@ -16,7 +16,7 @@ const useFoods = () => {
     }
 
     function addFoodItem(form, itemInfo) {
-        fetch('http://localhost:5000/addfood', {
+        fetch('https://yooda-hostel-srt.herokuapp.com/addfood', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ const useFoods = () => {
             })
     }
     function editFood(studentInfo, history) {
-        fetch('http://localhost:5000/editfood', {
+        fetch('https://yooda-hostel-srt.herokuapp.com/editfood', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ const useFoods = () => {
     }
 
     function deleteFoodItem(id) {
-        fetch(`http://localhost:5000/foods/${id}`, {
+        fetch(`https://yooda-hostel-srt.herokuapp.com/foods/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ const useFoods = () => {
     }
 
     async function getFoodInfo(id) {
-        const fetchData = await fetch(`http://localhost:5000/food/${id}`)
+        const fetchData = await fetch(`https://yooda-hostel-srt.herokuapp.com/food/${id}`)
         const data = await fetchData.json()
         return data
     }
