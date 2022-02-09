@@ -16,14 +16,14 @@ const AllStudents = () => {
             <h2 className='text-center mb-5'>Showing all students</h2>
             <div className='d-flex justify-content-center'>
                 <div>{
-                    bulkSelection.length > 0 && <select class="form-select form-select-sm">
+                    bulkSelection.length > 0 && <select className="form-select form-select-sm">
                         <option selected disabled>Change status</option>
                         <option value="active">active</option>
                         <option value="inActive">inActive</option>
                     </select>
                 }</div>
             </div>
-            <table class="container table table-striped mt-3 align-middle" style={{ maxWidth: '800px' }}>
+            <table className="container table table-striped mt-3 align-middle" style={{ maxWidth: '800px' }}>
                 <thead>
                     <tr>
                         <th scope="col"></th>
@@ -41,7 +41,7 @@ const AllStudents = () => {
                     {
                         students.map((student, i) => <tr key={i}>
                             <td>
-                                <input class="form-check-input" onChange={e => bulkAction(e, student)} type="checkbox" />
+                                <input className="form-check-input" onChange={e => bulkAction(e, student)} type="checkbox" />
                             </td>
                             <td>{student.id}</td>
                             <td>{student.fullName}</td>
@@ -50,7 +50,7 @@ const AllStudents = () => {
                             <td>{student.roll}</td>
                             <td>{student.hall}</td>
                             <td>
-                                <select defaultValue={student.studentStatus} class="form-select form-select-sm">
+                                <select defaultValue={student.studentStatus} className="form-select form-select-sm">
                                     <option value="active">active</option>
                                     <option value="inActive">inActive</option>
                                 </select>
@@ -64,19 +64,19 @@ const AllStudents = () => {
                 </tbody>
             </table>
             <div>{pageInfo?.pageNo !== 0 &&
-                <ul class="pagination justify-content-center my-5">
-                    <li class={`page-item ${pageInfo.pageNo < 2 ? 'disabled' : ''}`}>
-                        <span class="page-link" style={{ cursor: 'pointer' }}>Previous</span>
+                <ul className="pagination justify-content-center my-5">
+                    <li className={`page-item ${pageInfo.pageNo < 2 ? 'disabled' : ''}`}>
+                        <span className="page-link" style={{ cursor: 'pointer' }}>Previous</span>
                     </li>
                     {
-                        [...Array(pageInfo.totalPages)].map((v, i) => <li class="page-item" key={i}>
-                            <span class={`page-link ${pageInfo.pageNo === i + 1 ?
+                        [...Array(pageInfo.totalPages)].map((v, i) => <li className="page-item" key={i}>
+                            <span className={`page-link ${pageInfo.pageNo === i + 1 ?
                                 'bg-primary text-white' : ''}`}
                                 style={{ cursor: 'pointer' }}>{i + 1}</span>
                         </li>)
                     }
-                    <li class={`page-item ${pageInfo.totalPages === pageInfo.pageNo ? 'disabled' : ''}`}>
-                        <span class="page-link" style={{ cursor: 'pointer' }}>Next</span>
+                    <li className={`page-item ${pageInfo.totalPages === pageInfo.pageNo ? 'disabled' : ''}`}>
+                        <span className="page-link" style={{ cursor: 'pointer' }}>Next</span>
                     </li>
                 </ul>
             }</div>

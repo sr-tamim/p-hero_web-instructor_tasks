@@ -14,7 +14,7 @@ const AddStudent = () => {
                 <input type="number" className='form-control my-4' min={1} placeholder='Class' />
                 <input type="number" className='form-control my-4' min={1} placeholder='Roll' />
                 <input type="text" className='form-control my-4' placeholder='Hall Name' />
-                <select class="form-select mb-3">
+                <select className="form-select mb-3">
                     <option selected disabled>Status</option>
                     <option value="active">active</option>
                     <option value="inActive">inActive</option>

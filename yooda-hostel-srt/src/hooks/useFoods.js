@@ -11,7 +11,7 @@ const useFoods = () => {
         setFoods(getFoods)
     }, [])
 
-    return { foods, setFoods }
+    return { foods }
 };
 
 export default useFoods;

@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AddFood from './components/FoodComponents/AddFood';
 import Navbar from './components/Navbar/Navbar';
 import AllFoods from './components/FoodComponents/AllFoods';

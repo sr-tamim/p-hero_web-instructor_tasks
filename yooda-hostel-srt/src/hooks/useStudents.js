@@ -12,7 +12,7 @@ const useStudents = () => {
         setStudents(getStudents)
     }, [])
 
-    return { students, setStudents, pageInfo }
+    return { students, pageInfo }
 };
 
 export default useStudents;

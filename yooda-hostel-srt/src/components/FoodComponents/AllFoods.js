@@ -7,7 +7,7 @@ const AllFoods = () => {
     return (
         <div>
             <h2 className='text-center mt-4 mb-5'>Showing all food items</h2>
-            <table class="container table table-striped" style={{ maxWidth: '800px' }}>
+            <table className="container table table-striped" style={{ maxWidth: '800px' }}>
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
