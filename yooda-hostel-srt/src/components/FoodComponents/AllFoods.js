@@ -5,10 +5,6 @@ import useFoodContext from './useFoodContext';
 const AllFoods = () => {
     const { foods, deleteFoodItem, pageInfo, setPageInfo } = useFoodContext()
 
-    function deleteFunction(e, id) {
-        e.target.setAttribute('disabled', 'true')
-        deleteFoodItem(id)
-    }
     return (
         <div>
             <h2 className='text-center mt-4 mb-5'>Showing all food items</h2>
