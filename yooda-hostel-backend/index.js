@@ -76,6 +76,23 @@ async function run() {
             const result = await studentsCollection.deleteOne(filter)
             res.json(result)
         })
+        // edit a student
+        app.put('/editstudent', async (req, res) => {
+            const studentInfo = req.body
+            delete studentInfo._id
+            const query = { id: parseInt(studentInfo.id) }
+            const updateDoc = { $set: { ...studentInfo } }
+            const options = { upsert: false }
+            const result = await studentsCollection.updateOne(query, updateDoc, options)
+            res.json(result)
+        })
+        // get a student details
+        app.get('/student/:id', async (req, res) => {
+            const { id } = req.params
+            const query = { id: parseInt(id) }
+            const result = await studentsCollection.findOne(query);
+            res.json(result)
+        })
 
     } finally {
         // await client.close();

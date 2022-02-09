@@ -9,6 +9,7 @@ import AddStudent from './components/StudentComponents/AddStudent';
 import AllStudents from './components/StudentComponents/AllStudents';
 import useStudents from './hooks/useStudents';
 import DistributeFood from './components/DistributionComponents/DistributeFood';
+import EditStudent from './components/StudentComponents/EditStudent';
 
 export const FoodContext = createContext()
 export const StudentContext = createContext()
@@ -23,6 +24,7 @@ function App() {
             <Route path="addfood" element={<AddFood />} />
             <Route path="allfoods" element={<AllFoods />} />
             <Route path="addstudent" element={<AddStudent />} />
+            <Route path="editstudent/:id" element={<EditStudent />} />
             <Route path="allstudents" element={<AllStudents />} />
             <Route path="distributefood" element={<DistributeFood />} />
           </Routes>

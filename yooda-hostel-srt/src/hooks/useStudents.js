@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useStudents = () => {
-    const [students, setStudents] = useState([
-        { id: 1, fullName: 'Rahim', age: 15, class: 10, roll: 22, hall: 'nasiruddin', studentStatus: 'active' },
-        { id: 2, fullName: 'Karim', age: 13, class: 9, roll: 15, hall: 'nasiruddin', studentStatus: 'inActive' }
-    ])
+    const [students, setStudents] = useState([])
 
     const [pageInfo, setPageInfo] = useState({ pageNo: 1, totalPages: 1, itemsPerPage: 5 })
 
@@ -34,8 +31,40 @@ const useStudents = () => {
                 }
             })
     }
+    function editStudent(studentInfo, form) {
+        console.log(studentInfo)
+        fetch('http://localhost:5000/editstudent', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(studentInfo)
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.modifiedCount) {
+                    form && form.reset()
+                    loadStudents()
+                }
+            })
+    }
+    function deleteStudent(id) {
+        fetch(`http://localhost:5000/students/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(res => res.json())
+            .then(data => data.deletedCount === 1 && loadStudents())
+    }
 
-    return { students, pageInfo, setPageInfo, addStudent }
+    async function getStudentInfo(id) {
+        const fetchData = await fetch(`http://localhost:5000/student/${id}`)
+        const data = await fetchData.json()
+        return data
+    }
+
+    return { students, pageInfo, setPageInfo, addStudent, editStudent, deleteStudent, getStudentInfo }
 };
 
 export default useStudents;

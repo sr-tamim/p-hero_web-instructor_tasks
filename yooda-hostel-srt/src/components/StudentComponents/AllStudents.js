@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import useStudentContext from './useStudentContext';
 
 const AllStudents = () => {
-    const { students, pageInfo, setPageInfo } = useStudentContext()
+    const { students, pageInfo, setPageInfo, editStudent, deleteStudent } = useStudentContext()
 
     const [bulkSelection, setBulkSelection] = useState([])
 
-    function bulkAction(IDs) {
-        const newSelections = IDs.filter(id => !bulkSelection.includes(id))
-        newSelections.length && setBulkSelection([...bulkSelection, ...newSelections])
-        newSelections.length || setBulkSelection(bulkSelection.filter(id => !IDs.includes(id)))
+    function bulkAction(students, select = true) {
+        const newSelections = students.filter(student => !bulkSelection.find(d => d.id === student.id))
+        select && setBulkSelection([...bulkSelection, ...newSelections])
+        select || setBulkSelection(bulkSelection.filter(student => !students.find(d => d.id === student.id)))
     }
-    console.log(bulkSelection)
 
     return (
         <div>
-            <h2 className='text-center mb-5'>Showing all students</h2>
+            <h2 className='text-center mb-5 mt-4'>Showing all students</h2>
             <div className='text-center d-flex justify-content-center'>{
                 bulkSelection.length > 0 && <div>
                     {bulkSelection.length} items selected
-                    <select className="form-select my-2">
+                    <select className="form-select my-2" onChange={e => {
+                        bulkSelection.forEach(student => editStudent({ ...student, studentStatus: e.target.value }))
+                    }}>
                         <option value="" hidden>Change status</option>
                         <option value="active">active</option>
                         <option value="inActive">inActive</option>
@@ -30,21 +32,26 @@ const AllStudents = () => {
                 style={{ maxWidth: '750px' }}>
                 <div className='py-3 py-sm-0'>
                     <button className='btn btn-primary py-1'
-                        onClick={() => bulkAction(students.map(d => d.id), true)}>
+                        onClick={() => bulkAction(students)}>
                         Select all</button>
                     <button className='btn btn-primary py-1 ms-1'
-                        onClick={() => bulkAction(students.map(d => d.id), false)}>Deselect all</button>
+                        onClick={() => bulkAction(students, false)}>Deselect all</button>
                 </div>
                 <div className='d-flex align-items-center'>
                     items per page:
                     <input type="number" className='form-control py-1 ms-2' min={3}
+                        max={pageInfo.totalPages * pageInfo.itemsPerPage}
                         defaultValue={pageInfo.itemsPerPage}
                         style={{ maxWidth: 'min-content', minWidth: '80px' }}
                         onChange={e => {
-                            e.target.value > 2 && setPageInfo({
-                                ...pageInfo, itemsPerPage: e.target.value
-                            })
-                            if (e.target.value < 3) { e.target.value = pageInfo.itemsPerPage }
+                            if (e.target.value < 3) {
+                                e.target.value = pageInfo.itemsPerPage
+                            }
+                            else if (e.target.value > pageInfo.totalPages * pageInfo.itemsPerPage) {
+                                e.target.value = pageInfo.totalPages * pageInfo.itemsPerPage
+                            } else {
+                                setPageInfo({ ...pageInfo, itemsPerPage: e.target.value })
+                            }
                         }} />
                 </div>
             </div>
@@ -68,9 +75,9 @@ const AllStudents = () => {
                             students.map((student, i) => <tr key={i}>
                                 <td>
                                     <input className="form-check-input"
-                                        onChange={e => bulkAction([student.id])}
+                                        onChange={e => bulkAction([student], e.target.checked)}
                                         type="checkbox"
-                                        checked={bulkSelection.includes(student.id)} />
+                                        checked={!!bulkSelection.find(d => d.id === student.id)} />
                                 </td>
                                 <td>{student.id}</td>
                                 <td>{student.studentName}</td>
@@ -79,14 +86,21 @@ const AllStudents = () => {
                                 <td>{student.studentRoll}</td>
                                 <td>{student.studentHallName}</td>
                                 <td>
-                                    <select className="form-select form-select-sm">
+                                    <select className="form-select form-select-sm" onChange={e => {
+                                        editStudent({
+                                            ...student, studentStatus: e.target.value
+                                        })
+                                    }}>
                                         <option value="active" selected={student.studentStatus === 'active'}>active</option>
                                         <option value="inActive" selected={student.studentStatus === 'inActive'}>inActive</option>
                                     </select>
                                 </td>
                                 <td className='text-end'>
-                                    <button className='btn btn-primary py-0 me-2'>Edit</button>
-                                    <button className='btn btn-primary py-0'>Delete</button>
+                                    <Link to={`/editstudent/${student.id}`}>
+                                        <button className='btn btn-primary py-0 me-2'>Edit
+                                        </button></Link>
+                                    <button className='btn btn-primary py-0'
+                                        onClick={() => deleteStudent(student.id)}>Delete</button>
                                 </td>
                             </tr>)
                         }
