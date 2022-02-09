@@ -18,7 +18,6 @@ const useStudents = () => {
                 pageInfo.totalPages !== pages && setPageInfo({ ...pageInfo, totalPages: pages })
             })
     }
-    console.log(pageInfo)
 
     function addStudent(form, studentInfo) {
         fetch('http://localhost:5000/addstudent', {
