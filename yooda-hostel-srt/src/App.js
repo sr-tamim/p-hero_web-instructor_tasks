@@ -1,28 +1,32 @@
 import './App.css';
 import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
-import AddFood from './components/AddFood/AddFood';
+import AddFood from './components/FoodComponents/AddFood';
 import Navbar from './components/Navbar/Navbar';
-import AllFoods from './components/AllFoods/AllFoods';
+import AllFoods from './components/FoodComponents/AllFoods';
 import { createContext } from 'react';
 import useFoods from './hooks/useFoods';
+import AddStudent from './components/StudentComponents/AddStudent';
+import AllStudents from './components/StudentComponents/AllStudents';
+import useStudents from './hooks/useStudents';
 
 export const FoodContext = createContext()
+export const StudentContext = createContext()
 
 function App() {
-  const { foods, setFoods } = useFoods()
-
   return (
-    <BrowserRouter>
-      <FoodContext.Provider value={{ foods, setFoods }}>
+    <BrowserRouter><StudentContext.Provider value={useStudents()}>
+      <FoodContext.Provider value={useFoods()}>
         <div className="App">
           <Navbar />
           <Routes>
             <Route path="addfood" element={<AddFood />} />
             <Route path="allfoods" element={<AllFoods />} />
+            <Route path="addstudent" element={<AddStudent />} />
+            <Route path="allstudents" element={<AllStudents />} />
           </Routes>
         </div>
       </FoodContext.Provider>
-    </BrowserRouter>
+    </StudentContext.Provider></BrowserRouter>
   );
 }
 

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { FoodContext } from '../../App';
+import React from 'react';
+import useFoodContext from './useFoodContext';
 
 const AllFoods = () => {
-    const { foods } = useContext(FoodContext)
+    const { foods } = useFoodContext()
 
     return (
         <div>
