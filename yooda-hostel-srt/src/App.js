@@ -12,6 +12,7 @@ import DistributeFood from './components/DistributionComponents/DistributeFood';
 import EditStudent from './components/StudentComponents/EditStudent';
 import EditFoodItem from './components/FoodComponents/EditFoodItem';
 import LoadingIndicator from './components/LoadingIndicator/LoadingIndicator';
+import TaskDetails from './components/TaskDetails';
 
 export const FoodContext = createContext()
 export const StudentContext = createContext()
@@ -25,6 +26,7 @@ function App() {
         <div className="App">
           <Navbar />
           <Routes>
+            <Route path="/" element={<TaskDetails />} />
             <Route path="addfood" element={<AddFood />} />
             <Route path="allfoods" element={<AllFoods />} />
             <Route path="editfood/:id" element={<EditFoodItem />} />
