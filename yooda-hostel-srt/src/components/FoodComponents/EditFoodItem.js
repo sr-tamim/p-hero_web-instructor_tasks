@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFoodContext from './useFoodContext';
 
@@ -8,7 +8,8 @@ const EditFoodItem = () => {
     const history = useNavigate()
 
     const [targetFood, setTargetFood] = useState({})
-    getTargetFood()
+
+    useEffect(() => getTargetFood(), [])
     async function getTargetFood() {
         const data = await getFoodInfo(id)
         setTargetFood(data)

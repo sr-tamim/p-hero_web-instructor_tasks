@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useStudentContext from './useStudentContext';
 
@@ -8,7 +8,8 @@ const EditStudent = () => {
     const { editStudent, getStudentInfo } = useStudentContext()
 
     const [targetStudent, setTargetStudent] = useState({})
-    getTargetStudent()
+
+    useEffect(() => getTargetStudent(), [])
     async function getTargetStudent() {
         const data = await getStudentInfo(id)
         setTargetStudent(data)
