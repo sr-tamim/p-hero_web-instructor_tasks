@@ -5,9 +5,9 @@ const DistributeFood = () => {
     const [allStudents, setAllStudents] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:5000/allfoods').then(res => res.json())
+        fetch('https://yooda-hostel-srt.herokuapp.com/allfoods').then(res => res.json())
             .then(data => data && setAllFoods(data))
-        fetch('http://localhost:5000/allstudents').then(res => res.json())
+        fetch('https://yooda-hostel-srt.herokuapp.com/allstudents').then(res => res.json())
             .then(data => data && setAllStudents(data))
     }, [])
 
@@ -28,7 +28,7 @@ const DistributeFood = () => {
         }
         !allRolls.includes(formValues.studentRoll) ? alert('Student not found') :
             !allFoodNames.includes(formValues.foodItem) ? alert('Food not found') :
-                fetch('http://localhost:5000/distribute/food', {
+                fetch('https://yooda-hostel-srt.herokuapp.com/distribute/food', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
