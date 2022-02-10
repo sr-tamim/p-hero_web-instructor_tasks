@@ -33,6 +33,10 @@ async function run() {
         app.get('/allfoods', async (req, res) => {
             const { pageNo, items } = req.query
             const cursor = await (foodsCollection.find({})).toArray();
+            if (!pageNo || !items) {
+                res.json(cursor)
+                return
+            }
             const totalPages = Math.ceil(cursor.length / items)
             const foods = cursor.slice((pageNo - 1) * items, pageNo * items);
             res.json([foods, totalPages]);
@@ -77,6 +81,10 @@ async function run() {
         app.get('/allstudents', async (req, res) => {
             const { pageNo, items } = req.query
             const cursor = await (studentsCollection.find({})).toArray();
+            if (!pageNo || !items) {
+                res.json(cursor)
+                return
+            }
             const totalPages = Math.ceil(cursor.length / items)
             const students = cursor.slice((pageNo - 1) * items, pageNo * items);
             res.json([students, totalPages]);
@@ -111,6 +119,31 @@ async function run() {
             const { id } = req.params
             const query = { id: parseInt(id) }
             const result = await studentsCollection.findOne(query);
+            res.json(result)
+        })
+
+
+        // distribute food
+        const distributionCollection = yoodaHostel.collection('foodDistribution')
+        app.post('/distribute/food', async (req, res) => {
+            const { body } = req
+            const previousData = await distributionCollection.find({}).toArray()
+
+            let duplicate = false
+            previousData.forEach(data => {
+                const { studentRoll, date, shift } = data
+                if (studentRoll === body.studentRoll || date === body.date || shift === body.shift) {
+                    duplicate = true
+                }
+            })
+            if (duplicate) {
+                res.json({ error: 'Already served' })
+                return
+            }
+            const previousIDs = previousData.map(info => info.id)
+            const newID = previousIDs.length > 0 ? Math.max(...previousIDs) + 1 : 1
+            const newData = { ...req.body, id: newID }
+            const result = await distributionCollection.insertOne(newData)
             res.json(result)
         })
 
