@@ -16,15 +16,13 @@ const AllFoods = () => {
                         max={pageInfo.totalPages * pageInfo.itemsPerPage}
                         defaultValue={pageInfo.itemsPerPage}
                         style={{ maxWidth: 'min-content', minWidth: '80px' }}
-                        onChange={e => {
-                            if (e.target.value < 3) {
-                                e.target.value = pageInfo.itemsPerPage
-                            }
-                            else if (e.target.value > pageInfo.totalPages * pageInfo.itemsPerPage) {
-                                e.target.value = pageInfo.totalPages * pageInfo.itemsPerPage
-                            } else {
-                                setPageInfo({ ...pageInfo, itemsPerPage: e.target.value })
-                            }
+                        onKeyUp={e => e.key === 'Enter' && e.target.blur()}
+                        onBlur={e => {
+                            e.target.value = e.target.value < 3 ? 3 :
+                                e.target.value > pageInfo.totalItems ? pageInfo.totalItems :
+                                    e.target.value
+
+                            setPageInfo({ ...pageInfo, itemsPerPage: e.target.value })
                         }} />
                 </div>
             </div>
@@ -56,6 +54,9 @@ const AllFoods = () => {
                         }
                     </tbody>
                 </table>
+            </div>
+            <div className='mx-auto' style={{ maxWidth: '800px' }}>
+                Showing {foods.length} items of {pageInfo?.totalItems}
             </div>
             <div>{pageInfo?.pageNo !== 0 &&
                 <ul className="pagination justify-content-center my-5">

@@ -5,15 +5,18 @@ const useStudents = (setLoadingStatus) => {
 
     const [pageInfo, setPageInfo] = useState({ pageNo: 1, totalPages: 1, itemsPerPage: 5 })
 
-    useEffect(loadStudents, [pageInfo])
+    useEffect(loadStudents, [pageInfo, setLoadingStatus])
     function loadStudents() {
         setLoadingStatus(true)
         const { pageNo, itemsPerPage } = pageInfo
         fetch(`https://yooda-hostel-srt.herokuapp.com/allstudents?pageNo=${pageNo}&items=${itemsPerPage}`)
             .then(res => res.json())
-            .then(([data, pages]) => {
+            .then(([data, totalItems]) => {
                 setStudents(data)
-                pageInfo.totalPages !== pages && setPageInfo({ ...pageInfo, totalPages: pages })
+                const totalPages = Math.ceil(totalItems / itemsPerPage)
+                if (pageInfo.totalItems !== totalItems || pageInfo.totalPages !== totalPages) {
+                    setPageInfo({ ...pageInfo, totalPages, totalItems })
+                }
                 setLoadingStatus(false)
             })
     }

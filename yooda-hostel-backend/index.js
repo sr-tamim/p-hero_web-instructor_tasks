@@ -37,9 +37,9 @@ async function run() {
                 res.json(cursor)
                 return
             }
-            const totalPages = Math.ceil(cursor.length / items)
+            const totalItems = cursor.length
             const foods = cursor.slice((pageNo - 1) * items, pageNo * items);
-            res.json([foods, totalPages]);
+            res.json([foods, totalItems]);
         })
         // add new food item to database
         app.post('/addfood', async (req, res) => {
@@ -85,9 +85,9 @@ async function run() {
                 res.json(cursor)
                 return
             }
-            const totalPages = Math.ceil(cursor.length / items)
+            const totalItems = cursor.length
             const students = cursor.slice((pageNo - 1) * items, pageNo * items);
-            res.json([students, totalPages]);
+            res.json([students, totalItems]);
         })
         // add new student to database
         app.post('/addstudent', async (req, res) => {

@@ -10,9 +10,12 @@ const useFoods = (setLoadingStatus) => {
         const { pageNo, itemsPerPage } = pageInfo
         fetch(`https://yooda-hostel-srt.herokuapp.com/allfoods?pageNo=${pageNo}&items=${itemsPerPage}`)
             .then(res => res.json())
-            .then(([data, pages]) => {
+            .then(([data, totalItems]) => {
                 setFoods(data)
-                pageInfo.totalPages !== pages && setPageInfo({ ...pageInfo, totalPages: pages })
+                const totalPages = Math.ceil(totalItems / itemsPerPage)
+                if (pageInfo.totalItems !== totalItems || pageInfo.totalPages !== totalPages) {
+                    setPageInfo({ ...pageInfo, totalPages, totalItems })
+                }
                 setLoadingStatus(false)
             })
     }
